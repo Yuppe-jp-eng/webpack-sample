@@ -1,3 +1,6 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin'); 
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+
 const path = require("path");
 
 module.exports = {
@@ -13,6 +16,7 @@ module.exports = {
                 test: /\.(js|jsx)$/,
                 exclude: /(node_modules)/,
                 loader: "babel-loader",
+                options: { plugins: ['react-refresh/babel']},
             },
             {
                 test: /\.css$/i,
@@ -28,7 +32,7 @@ module.exports = {
         open: true,
         //開くポート
         port: 9000,
-        // HMRの有効化(webpack4系からデフォルトで有効化しているみたいです)
+        // HMRの有効化(webpack4系からデフォルトで有効化)
         hot: true,
         //配信するコンテンツのルートディレクトリ
         static: [
@@ -37,5 +41,13 @@ module.exports = {
             }
         ]
     },
-    devtool: 'eval-cheap-module-source-map'
+    devtool: 'eval-cheap-module-source-map',
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: 'index.html',
+            filename: 'index.html',
+            hash: true,
+        }),
+        new ReactRefreshWebpackPlugin()
+    ]
 };
